@@ -1,0 +1,139 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<META http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style>
+button
+{
+    padding: 5px 9px;
+	border:1px solid #fff;
+    background-color: #4470E6;
+	opacity:0.8;
+    color: #fff;
+    font-size:18px;
+	width:150px;
+}
+button:hover
+{
+    background: #000;
+	transition:all 300ms ease;
+    cursor:pointer;
+}
+</style>
+</head>
+<body>
+	<font size="8" color="green" id="title">Final test lab</font><br><br>
+	<div id="askrowcolumns">
+	Number of rows: <input type="text" name="rows" id="rows"><br><br>
+	Number of cols: <input type="text" name="cols" id="cols"><br><br>
+	</div>
+	<button name="Generate" id="generateTable" onclick="generateTable()">Generate Table</button><br><br>
+	
+	<button name="AddColumn" id="addColumn" onclick="addColumn()">Add Column</button>
+	
+	<button name="AddRow" id="addRow" onclick="addRow()">Add Row</button>
+	<br/>
+	<div id="error" style="color: #F00;"></div>
+	<br/>
+	<div id="table"></div>
+	<script>
+	function addRow()
+	{
+		var table = document.getElementById("newTable");
+		var totalRows = table.rows.length;
+		var totalCols = table.rows[0].cells.length;
+		var addRow = table.insertRow(totalRows);
+		for (i = 1; i <= table.rows[0].cells.length; i++) {
+			var td = document.createElement('TD');
+			td.width = '150';
+			td.style.padding = "10px";
+			td.style.borderBottom = "2px solid #EEE";
+			td.appendChild(document.createTextNode("row["+parseInt(totalRows+1)+"] col["+i+"]"));
+			addRow.appendChild(td);
+		}
+	}
+	function addColumn()
+	{
+		var table = document.getElementById("newTable");
+		var totalRows = table.rows.length;
+		var totalCols = table.rows[0].cells.length;
+		for (i = 0; i < totalRows; i++) {
+			var td = document.createElement('TD');
+			td.width = '150';
+			td.style.padding = "10px";
+			td.style.borderBottom = "2px solid #EEE";
+			td.appendChild(document.createTextNode("row["+parseInt(i+1)+"] col["+(totalCols+1)+"]"));
+			table.rows[i].insertCell(table.rows[i].cells.length).appendChild(td);
+		}
+	}
+	function generateTable()
+	{
+		var maindiv = document.getElementById("table");
+		maindiv.innerHTML = "";
+		var rows = document.getElementById("rows").value;
+		var cols = document.getElementById("cols").value;
+		if(rows == "")
+		{
+			document.getElementById("error").innerHTML = "";
+			document.getElementById("error").innerHTML = "Please Enter Number of Rows.";
+			document.getElementById("rows").focus();
+			return false;
+		}
+		else if(cols == "")
+		{
+			document.getElementById("error").innerHTML = "";
+			document.getElementById("error").innerHTML = "Please Enter Number of Columns.";
+			document.getElementById("cols").focus();
+			return false;
+		}
+		else
+		{
+			if(rows == "0")
+			{
+				document.getElementById("error").innerHTML = "Rows should not be 0.";
+				document.getElementById("rows").focus();
+				return false;
+			}
+			else if(cols == "0")
+			{
+				document.getElementById("error").innerHTML = "Columns should not be 0.";
+				document.getElementById("cols").focus();
+				return false;
+			}
+			else
+			{
+				document.getElementById("title").style.display = "none";
+				document.getElementById("askrowcolumns").style.display = "none";
+				document.getElementById("generateTable").style.display = "none";
+				document.getElementById("error").innerHTML = "";
+				var table = document.createElement('TABLE');
+				table.id = "newTable";
+				table.border = "1";
+				table.cellPadding = "0";
+				table.cellSpacing = "0";
+				table.className = "csstable";
+				
+				var tableBody = document.createElement('TBODY');
+				table.appendChild(tableBody);
+				
+				for (var i = 1; i <= rows; i++)
+				{
+					var tr = document.createElement('TR');
+					tableBody.appendChild(tr);				
+					for (var j = 1; j <= cols; j++)
+					{
+						var td = document.createElement('TD');
+						td.width = '150';
+						td.style.padding = "10px";
+						td.style.borderBottom = "2px solid #EEE";
+						td.appendChild(document.createTextNode("row["+i+"] col["+j+"]"));
+						tr.appendChild(td);
+					}
+				}
+				maindiv.appendChild(table);
+			}
+		}
+	}
+</script>
+</body>
+</html>
